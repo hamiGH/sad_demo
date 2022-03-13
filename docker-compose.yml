@@ -1,0 +1,24 @@
+# docker-compose.yml
+
+version: "3.2"
+services:
+
+  spu-service:
+    build: .
+    tty: true
+    # Map port 3000 on the host machine to port 3000 of the container.
+    # This will be used to receive HTTP requests made to the service.
+    ports:
+      - "5005:5005"
+    networks:
+      - network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities:
+                - gpu
+networks:
+#  # Declare our private network.  We must declare one for the magic
+#  # Docker DNS to work, but otherwise its default settings are fine.
+  network: {}
