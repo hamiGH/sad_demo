@@ -103,7 +103,7 @@ def handle_exception(error):
 @ThrowsWebAppException(error_code=PREDICTION_ERROR)
 def vad_prediction(audio_file, threshold):
     vad_annotation = spu_core.apply_vad(file_path=audio_file, threshold=threshold, gpu_number=0)
-    vad_out = {"vad_annotation": vad_annotation}
+    vad_out = {"sad_annotation": vad_annotation}
     return vad_out
 
 
