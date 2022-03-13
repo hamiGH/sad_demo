@@ -8,7 +8,10 @@ from spu import SpeechProcessingUnit
 
 
 current_dir = os.path.dirname(os.path.realpath(__file__))
-LOG_FILENAME = os.path.join(current_dir, 'log/server.log')
+log_path = os.path.join(current_dir, "log")
+if not os.path.exists(log_path):
+    os.mkdir(log_path)
+LOG_FILENAME = os.path.join(log_path, 'server.log')
 LOG_BACKUP_COUNT = 5
 LOG_FILE_SIZE_BYTES = 50 * 1024 * 1024
 
@@ -22,8 +25,8 @@ errors = {
     VOICE_DECODE_ERROR: "VOICE_DECODE_ERROR",
     PREDICTION_ERROR: "PREDICTION_ERROR",
     UNKNOWN_ERROR: "UNKNOWN_ERROR",
-    INVALID_FORMAT: "INVALID_FORMAT_JSON_REQ",
-    MISSING_ARGUMENTS: "MISSING_ARGUMENTS_JSON_REQ"
+    INVALID_FORMAT: "INVALID_FORMAT_REQ",
+    MISSING_ARGUMENTS: "MISSING_ARGUMENTS_REQ"
 }
 
 
@@ -104,14 +107,17 @@ def vad_prediction(audio_file, threshold):
     return vad_out
 
 
-@app.route('/spu/vad', methods=['POST'])
+@app.route('/sad', methods=['POST'])
 def vad():
     if request.headers['Content-Type'].startswith('multipart/form-data'):
         try:
             # Remember the paramName was set to 'file', we can use that here to grab it
             file = request.files['file']
             # secure_filename makes sure the filename isn't unsafe to save
-            save_path = os.path.join(current_dir, "temp_data", str(random.randint(0, 1000000)) + secure_filename(file.filename))
+            temp_path = os.path.join(current_dir, "temp_data")
+            if not os.path.exists(temp_path):
+                os.mkdir(temp_path)
+            save_path = os.path.join(temp_path, str(random.randint(0, 1000000)) + secure_filename(file.filename))
             # We need to append to the file, and write as bytes
             with open(save_path, 'ab') as temp_file:
                 temp_file.seek(0, 2)
