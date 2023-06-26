@@ -1,20 +1,14 @@
-
-
 import os
-
 import torch
 from torch.autograd import Variable
-
-
 import numpy as np
 import configparser as ConfigParser
 from optparse import OptionParser
-
 from dnn_models import MLP,flip
 from dnn_models import SincNet as CNN
 
 
-class Vad():
+class Vad:
     def __init__(self, gpu_number=None):
 
         if gpu_number is None:
@@ -136,9 +130,6 @@ class Vad():
         self.DNN1_net.share_memory()
         self.DNN2_net.share_memory()
 
-
-
-
     def read_conf(self, cfg=None):
 
         parser = OptionParser()
@@ -202,7 +193,6 @@ class Vad():
         else:
             raise ValueError
 
-
     def run(self, signal, fs):
 
         channels = len(signal.shape)
@@ -261,7 +251,6 @@ class Vad():
         # pout = pout.squeeze()
         # pout = pout.data.cpu().numpy()
 
-
         #edit 11 april
         ##edit 4 February
         ## alpha = (self.wshift / self.wlen) * 2
@@ -269,9 +258,6 @@ class Vad():
         alpha = (self.wshift / (200*(self.fs/1000)))
         for i_fr in range(1, N_fr):
             pout[i_fr] =  alpha * pout[i_fr] + (1 - alpha) * pout[i_fr - 1]
-
-
-
 
 
         num_expand = int((self.wlen / 2) / self.wshift)
@@ -357,7 +343,6 @@ class Vad():
 
         # idx = np.argwhere(np.isnan(vad_res))
 
-
         # result = {}
         # result["vad_out"] = vad_res.tolist()
 
@@ -368,16 +353,5 @@ class Vad():
         #     json.dump(result, outfile)
 
         return vad_res, 100
-
-
         # return vad_out, vad_pout
         # return pred, pout
-
-
-
-
-
-
-if __name__ == '__main__':
-
-    pass

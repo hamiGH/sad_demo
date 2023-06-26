@@ -25,7 +25,6 @@ Relevent tags: #SAD #sad #speech_activity_detection #voice_activity_detection #s
 
 ## Acknowledgements
 
-This project includes code from the [OriginalRepository](https://github.com/original-repo) by [OriginalAuthor](https://github.com/original-author). The following files have been adapted or used from the original repository:
+This project includes code from the [SincNet](https://github.com/mravanelli/SincNet) by [mravanelli](https://github.com/mravanelli). The following file have been adapted or used from the original repository:
 
-- [File1](path/to/File1): Description of the modifications made.
-- [File2](path/to/File2): Description of the modifications made.
+- [dnn_models](https://github.com/hamiGH/sad_demo/blob/main/dnn_models.py)
